@@ -1,0 +1,38 @@
+# C2S Proxy
+
+## Overview
+The C2S Proxy is designed to enhance web security by intercepting HTTP requests, converting them to HTTPS, and forwarding them to their intended destinations. It includes an access control feature to block requests to specified forbidden sites.
+
+## Features
+- **HTTP to HTTPS Conversion**: Converts HTTP requests to HTTPS to ensure secure communication with web servers.
+- **Access Control**: Employs an access control list to restrict access to specified forbidden sites, enhancing security and compliance.
+- **Concurrent Request Handling**: Capable of handling multiple client requests simultaneously for efficient operation.
+- **Supported Methods**: Supports GET and HEAD HTTP methods, catering to common web request types.
+- **Error Handling**: Provides appropriate HTTP error responses for various error conditions, including access to forbidden sites or unsupported request methods.
+- **Dynamic Configuration**: Allows for real-time updates to the forbidden sites list upon receiving specific signals, ensuring up-to-date access control.
+- **Logging**: Maintains detailed logs of all proxy activities, including request and response details, for auditing and troubleshooting purposes.
+
+## Usage
+To start the proxy server, execute the following command with the necessary parameters:
+
+    ./myproxy <listen_port> <forbidden_sites_file_path> <access_log_file_path>
+
+- `listen_port`: The port number on which the proxy listens for incoming requests.
+- `forbidden_sites_file_path`: Path to the file containing the list of forbidden domains and IP addresses.
+- `access_log_file_path`: Path to the file where access logs are recorded.
+
+## Making Requests Through the Proxy
+With the proxy server running, you can make HTTP requests through it using the `curl` command as follows:
+
+    curl -x http://localhost:<listen_port>/ http://www.example.com
+
+Replace `<listen_port>` with the actual port number where your proxy is listening. For example, if the proxy is listening on port 8080:
+
+    curl -x http://localhost:8080/ http://www.example.com
+
+This command instructs `curl` to send the request for `www.example.com` through the proxy running on `localhost` at port `8080`.
+
+### Notes
+- Ensure the proxy server is active and listening on the specified port before attempting to route requests through it.
+- The proxy will return an HTTP 403 Forbidden response for requests attempting to access URLs listed in the forbidden sites file.
+- This setup is ideal for testing the proxy's functionality and observing its behavior under different scenarios.
